@@ -28,8 +28,12 @@ export class TutorService {
 
   async update(id: number, updateTutorDto: UpdateTutorDto) {
     const tutor = await this.findById(id);
+    const foundByEmail = await this.repository.findOneBy({ email: updateTutorDto.email });
     if (tutor.id !== id) {
       throw new ForbiddenException();
+    }
+    if (foundByEmail && tutor.id !== foundByEmail.id) {
+      throw new BadRequestException(`Email already being used`);
     }
     assignValues(updateTutorDto, tutor);
     return this.repository.save(tutor);
