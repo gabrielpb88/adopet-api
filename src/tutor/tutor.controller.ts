@@ -19,7 +19,7 @@ export class TutorController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Tutor> {
     return this.tutorService.findOne(id);
   }
 

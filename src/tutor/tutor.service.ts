@@ -22,8 +22,8 @@ export class TutorService {
     return this.repository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tutor`;
+  async findOne(id: number): Promise<Tutor> {
+    return this.repository.findOneBy({ id });
   }
 
   update(id: number, updateTutorDto: UpdateTutorDto) {
