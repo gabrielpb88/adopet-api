@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTutorDto } from './dto/create-tutor.dto';
 import { UpdateTutorDto } from './dto/update-tutor.dto';
 import { Repository } from 'typeorm';
-import { Tutor } from './entities/tutor.entity';
+import { Tutor } from './tutor.entity';
 import { assignValues } from '../utils/assign';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -26,11 +26,24 @@ export class TutorService {
     return this.repository.findOneBy({ id });
   }
 
-  update(id: number, updateTutorDto: UpdateTutorDto) {
-    return `This action updates a #${id} tutor`;
+  async update(id: number, updateTutorDto: UpdateTutorDto) {
+    const tutor = await this.findById(id);
+    if (tutor.id !== id) {
+      throw new ForbiddenException();
+    }
+    assignValues(updateTutorDto, tutor);
+    return this.repository.save(tutor);
   }
 
   remove(id: number) {
     return `This action removes a #${id} tutor`;
+  }
+
+  async findById(id: number): Promise<Tutor> {
+    const found = this.repository.findOneBy({ id });
+    if (!found) {
+      throw new NotFoundException(`resource of ${id} was not found`);
+    }
+    return found;
   }
 }

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from 
 import { TutorService } from './tutor.service';
 import { CreateTutorDto } from './dto/create-tutor.dto';
 import { UpdateTutorDto } from './dto/update-tutor.dto';
-import { Tutor } from './entities/tutor.entity';
+import { Tutor } from './tutor.entity';
 
 @Controller('tutor')
 export class TutorController {
@@ -24,9 +24,8 @@ export class TutorController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateTutorDto: UpdateTutorDto) {
-    return id;
-    // return this.tutorService.update(id, updateTutorDto);
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updateTutorDto: UpdateTutorDto): Promise<Tutor> {
+    return this.tutorService.update(id, updateTutorDto);
   }
 
   @Delete(':id')
