@@ -29,7 +29,7 @@ export class TutorController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tutorService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<Tutor> {
+    return this.tutorService.remove(id);
   }
 }

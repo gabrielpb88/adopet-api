@@ -35,8 +35,10 @@ export class TutorService {
     return this.repository.save(tutor);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tutor`;
+  async remove(id: number): Promise<Tutor> {
+    const found = await this.findById(id);
+    found.active = false;
+    return this.repository.save(found);
   }
 
   async findById(id: number): Promise<Tutor> {
