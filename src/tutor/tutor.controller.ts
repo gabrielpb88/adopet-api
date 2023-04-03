@@ -30,6 +30,6 @@ export class TutorController {
 
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number): Promise<Tutor> {
-    return this.tutorService.remove(id);
+    return await this.tutorService.remove(id);
   }
 }

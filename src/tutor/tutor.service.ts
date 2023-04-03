@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTutorDto } from './dto/create-tutor.dto';
 import { UpdateTutorDto } from './dto/update-tutor.dto';
 import { Repository } from 'typeorm';
@@ -23,7 +23,7 @@ export class TutorService {
   }
 
   async findOne(id: number): Promise<Tutor> {
-    return this.repository.findOneBy({ id });
+    return this.findById(id);
   }
 
   async update(id: number, updateTutorDto: UpdateTutorDto) {
@@ -37,12 +37,15 @@ export class TutorService {
 
   async remove(id: number): Promise<Tutor> {
     const found = await this.findById(id);
-    found.active = false;
-    return this.repository.save(found);
+    if (!found.active) {
+      throw new BadRequestException(`id ${id} is not active`);
+    }
+    await this.repository.softRemove(found);
+    return found;
   }
 
   async findById(id: number): Promise<Tutor> {
-    const found = this.repository.findOneBy({ id });
+    const found = await this.repository.findOneBy({ id });
     if (!found) {
       throw new NotFoundException(`resource of ${id} was not found`);
     }

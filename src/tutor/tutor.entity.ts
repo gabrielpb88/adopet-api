@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Tutor extends BaseEntity {
@@ -13,4 +13,7 @@ export class Tutor extends BaseEntity {
 
   @Column({ default: false })
   active: boolean;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
