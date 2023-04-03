@@ -12,13 +12,13 @@ export class TutorService {
     @InjectRepository(Tutor)
     private readonly repository: Repository<Tutor>,
   ) {}
-  create(createTutorDto: CreateTutorDto) {
+  async create(createTutorDto: CreateTutorDto): Promise<Tutor> {
     const tutor = this.repository.create();
     assignValues(createTutorDto, tutor);
     return this.repository.save(tutor);
   }
 
-  findAll() {
+  async findAll(): Promise<Tutor[]> {
     return this.repository.find();
   }
 
