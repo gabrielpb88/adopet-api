@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, IsUrl, MinLength } from 'class-validator';
 import { EmailUnique } from '../validation/is-email-unique.validator';
 
 export class CreateTutorDto {
@@ -12,6 +12,15 @@ export class CreateTutorDto {
   email: string;
 
   @IsString()
-  @IsNotEmpty()
-  password: string;
+  @IsOptional()
+  @MinLength(11)
+  phone: string;
+
+  @IsString()
+  @IsOptional()
+  about: string;
+
+  @IsUrl()
+  @IsOptional()
+  profilePictureUrl: string;
 }

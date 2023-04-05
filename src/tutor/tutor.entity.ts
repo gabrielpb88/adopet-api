@@ -11,6 +11,15 @@ export class Tutor extends BaseEntity {
   @Column()
   email: string;
 
+  @Column({ nullable: true })
+  phone: string;
+
+  @Column({ nullable: true })
+  about: string;
+
+  @Column({ nullable: true })
+  profilePictureUrl: string;
+
   @Column({ default: false })
   active: boolean;
 
