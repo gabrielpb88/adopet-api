@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { TutorService } from './tutor.service';
 import { CreateTutorDto } from './dto/create-tutor.dto';
 import { UpdateTutorDto } from './dto/update-tutor.dto';
@@ -23,7 +23,7 @@ export class TutorController {
     return this.tutorService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() updateTutorDto: UpdateTutorDto): Promise<Tutor> {
     return this.tutorService.update(id, updateTutorDto);
   }

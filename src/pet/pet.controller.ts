@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { PetService } from './pet.service';
 import { Pet } from './pet.entity';
@@ -26,7 +26,7 @@ export class PetController {
     return this.service.create(createPetDto);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() updatePetDto: UpdatePetDto): Promise<Pet> {
     return this.service.update(id, updatePetDto);
   }
