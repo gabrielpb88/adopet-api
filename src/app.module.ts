@@ -3,9 +3,10 @@ import { TutorModule } from './tutor/tutor.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConfig } from './config/typeorm.config';
 import { PetModule } from './pet/pet.module';
+import { ShelterModule } from './shelter/shelter.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeormConfig), TutorModule, PetModule],
+  imports: [TypeOrmModule.forRoot(typeormConfig), TutorModule, PetModule, ShelterModule],
   controllers: [],
   providers: [],
 })
