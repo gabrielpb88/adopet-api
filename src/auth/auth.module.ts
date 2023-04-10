@@ -21,5 +21,6 @@ const ONE_YEAR_IN_MILLISECONDS = 60 * 60 * 24 * 365;
   ],
   providers: [AuthService],
   controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}

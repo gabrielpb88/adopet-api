@@ -8,5 +8,6 @@ import { ShelterService } from './shelter.service';
   imports: [TypeOrmModule.forFeature([Shelter])],
   controllers: [ShelterController],
   providers: [ShelterService],
+  exports: [ShelterService],
 })
 export class ShelterModule {}

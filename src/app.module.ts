@@ -5,9 +5,10 @@ import { typeormConfig } from './config/typeorm.config';
 import { PetModule } from './pet/pet.module';
 import { ShelterModule } from './shelter/shelter.module';
 import { AuthModule } from './auth/auth.module';
+import { EmployeeModule } from './employee/employee.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeormConfig), TutorModule, PetModule, ShelterModule, AuthModule],
+  imports: [TypeOrmModule.forRoot(typeormConfig), TutorModule, PetModule, ShelterModule, AuthModule, EmployeeModule],
   controllers: [],
   providers: [],
 })

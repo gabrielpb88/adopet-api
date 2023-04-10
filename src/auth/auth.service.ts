@@ -1,4 +1,4 @@
-import { ConflictException, HttpException, Inject, Injectable } from '@nestjs/common';
+import { ConflictException, HttpException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './auth.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -50,5 +50,13 @@ export class AuthService {
 
   async hashPassword(password, salt) {
     return await bcrypt.hash(password, salt);
+  }
+
+  async findById(id: number): Promise<User> {
+    const found = await this.repository.findOneBy({ id });
+    if (!found) {
+      throw new NotFoundException(`User of id ${id} was not found`);
+    }
+    return found;
   }
 }

@@ -23,7 +23,7 @@ export class ShelterService {
   async findById(id: number): Promise<Shelter> {
     const found = await this.repository.findOneBy({ id });
     if (!found) {
-      throw new NotFoundException(`resource of ${id} was not found`);
+      throw new NotFoundException(`shelter of ${id} was not found`);
     }
     return found;
   }
