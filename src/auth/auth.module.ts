@@ -5,6 +5,7 @@ import { User } from './auth.entity';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './jwt.strategy';
 
 const ONE_YEAR_IN_MILLISECONDS = 60 * 60 * 24 * 365;
 
@@ -19,8 +20,8 @@ const ONE_YEAR_IN_MILLISECONDS = 60 * 60 * 24 * 365;
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService, JwtStrategy, PassportModule],
 })
 export class AuthModule {}

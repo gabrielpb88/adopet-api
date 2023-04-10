@@ -20,6 +20,7 @@ async function bootstrap() {
     .setTitle('Adopet API')
     .setDescription('RESTFUL API for Adopet application')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
