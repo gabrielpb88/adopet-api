@@ -13,7 +13,7 @@ export class ShelterController {
     private readonly service: ShelterService,
   ) {}
 
-  @ApiOperation({ summary: 'Creates a new Shelter' })
+  @ApiOperation({ summary: 'Creates a new Shelter with own user' })
   @Post()
   async create(@Body() createShelterDto: CreateShelterDto): Promise<Shelter> {
     return this.service.create(createShelterDto);
