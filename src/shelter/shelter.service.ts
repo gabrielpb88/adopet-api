@@ -1,22 +1,30 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Shelter } from './shelter.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateShelterDto } from './dto/create-shelter.dto';
-import { assignToObject } from '@nestjs/core/repl/assign-to-object.util';
 import { assignValues } from '../utils/assign';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class ShelterService {
   constructor(
     @InjectRepository(Shelter)
     private readonly repository: Repository<Shelter>,
+
+    @Inject(AuthService)
+    private readonly authService: AuthService,
   ) {}
 
   async create(createShelterDto: CreateShelterDto): Promise<Shelter> {
+    const { name, phone, address, email, password } = createShelterDto;
     const shelter = this.repository.create();
-    assignToObject(shelter, createShelterDto);
+    shelter.name = name;
+    shelter.phone = phone;
+    shelter.address = address;
+
+    shelter.user = await this.authService.signUp({ email, password });
     return this.repository.save(shelter);
   }
 
