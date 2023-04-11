@@ -14,6 +14,6 @@ export class UpdateShelterDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  @Length(11, 11)
+  @Length(10, 20)
   phone: string;
 }

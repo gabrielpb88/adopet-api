@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Shelter } from './shelter.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,7 @@ import { CreateShelterDto } from './dto/create-shelter.dto';
 import { assignValues } from '../utils/assign';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
 import { AuthService } from '../auth/auth.service';
+import { User } from '../auth/auth.entity';
 
 @Injectable()
 export class ShelterService {
@@ -40,14 +41,20 @@ export class ShelterService {
     return this.repository.find();
   }
 
-  async update(id: number, updateShelterDto: UpdateShelterDto) {
+  async update(id: number, updateShelterDto: UpdateShelterDto, user: User) {
     const found = await this.findById(id);
+    if (found.id !== user.id) {
+      throw new ForbiddenException('Unauthorized access');
+    }
     assignValues(updateShelterDto, found);
     return this.repository.save(found);
   }
 
-  async remove(id: number): Promise<Shelter> {
+  async remove(id: number, user: User): Promise<Shelter> {
     const found = await this.findById(id);
+    if (found.id !== user.id) {
+      throw new ForbiddenException('Unauthorized access');
+    }
     await this.repository.softRemove(found);
     return found;
   }
