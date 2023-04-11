@@ -24,14 +24,18 @@ export class EmployeeController {
   }
 
   @ApiOperation({ summary: 'Get All Employees' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   @Get()
-  async findAll(): Promise<Employee[]> {
-    return this.service.findAll();
+  async findAll(@GetUser() loggedUser: User): Promise<Employee[]> {
+    return this.service.findAll(loggedUser);
   }
 
-  @ApiOperation({ summary: 'Get Employees By Id' })
+  @ApiOperation({ summary: 'Get Employees By Id and Shelter' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   @Get(':id')
-  async findById(@Param('id', ParseIntPipe) id: number): Promise<Employee> {
-    return this.service.findById(id);
+  async findById(@Param('id', ParseIntPipe) id: number, @GetUser() loggedUser: User): Promise<Employee> {
+    return this.service.findByIdAndShelter(id, loggedUser);
   }
 }
