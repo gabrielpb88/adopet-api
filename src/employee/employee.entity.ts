@@ -11,18 +11,18 @@ export class Employee {
   phone: string;
 
   @OneToOne((type) => User)
-  @JoinColumn()
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @Column({ nullable: true })
-  userId: number;
+  user_id: number;
 
   @OneToOne((type) => Shelter)
-  @JoinColumn()
+  @JoinColumn({ name: 'shelter_id' })
   shelter: Shelter;
 
   @Column({ nullable: true })
-  shelterId: number;
+  shelter_id: number;
 
   @Column()
   name: string;

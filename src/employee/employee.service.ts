@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,21 +17,21 @@ export class EmployeeService {
     private readonly shelterService: ShelterService,
   ) {}
 
-  async create(createEmployeeDto: CreateEmployeeDto) {
-    const { userId, shelterId, name, phone } = createEmployeeDto;
-
-    const [user, shelter] = await Promise.all([
-      this.authService.findById(userId),
-      this.shelterService.findById(shelterId),
-    ]);
-
+  async create(createEmployeeDto: CreateEmployeeDto, loggedUser) {
+    const { name, phone, email, password } = createEmployeeDto;
+    let shelter;
+    try {
+      shelter = await this.shelterService.findByUserId(loggedUser.id);
+    } catch (e) {
+      throw new BadRequestException(`Logged user is not related to any shelter`);
+    }
+    const newUser = await this.authService.signUp({ email, password });
     const employee = this.employeeRepository.create();
-    employee.user = user;
-    employee.shelter = shelter;
     employee.name = name;
     employee.phone = phone;
+    employee.shelter = shelter;
+    employee.user = newUser;
     await this.employeeRepository.insert(employee);
-
     return employee;
   }
 

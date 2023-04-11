@@ -58,4 +58,12 @@ export class ShelterService {
     await this.repository.softRemove(found);
     return found;
   }
+
+  async findByUserId(id: number): Promise<Shelter> {
+    const found = await this.repository.findOneBy({ user_id: id });
+    if (!found) {
+      throw new NotFoundException(`Shelter of id: ${id} not found`);
+    }
+    return found;
+  }
 }
