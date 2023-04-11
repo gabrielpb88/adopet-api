@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { TutorService } from './tutor.service';
 import { CreateTutorDto } from './dto/create-tutor.dto';
 import { UpdateTutorDto } from './dto/update-tutor.dto';
 import { Tutor } from './tutor.entity';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from '../auth/user.decorator';
+import { User } from '../auth/auth.entity';
 
 @ApiTags('Tutor')
 @Controller('tutor')
@@ -28,15 +31,19 @@ export class TutorController {
     return this.tutorService.findOne(id);
   }
 
-  @ApiOperation({ summary: 'Update tutor' })
-  @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() updateTutorDto: UpdateTutorDto): Promise<Tutor> {
-    return this.tutorService.update(id, updateTutorDto);
+  @ApiOperation({ summary: 'Update the tutor logged in' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Put()
+  async update(@Body() updateTutorDto: UpdateTutorDto, @GetUser() user: User): Promise<Tutor> {
+    return this.tutorService.update(user.id, updateTutorDto);
   }
 
-  @ApiOperation({ summary: 'Removes tutor' })
-  @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<Tutor> {
-    return await this.tutorService.remove(id);
+  @ApiOperation({ summary: 'Removes tutor logged in' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Delete()
+  async remove(@GetUser() user: User): Promise<Tutor> {
+    return await this.tutorService.remove(user.id);
   }
 }
