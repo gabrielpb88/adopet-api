@@ -1,23 +1,20 @@
 import { User } from 'src/auth/auth.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { Shelter } from '../shelter/shelter.entity';
 
 @Entity()
 export class Employee {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @Column()
   phone: string;
 
-  @OneToOne((type) => User)
+  @OneToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, primary: true })
   user_id: number;
 
-  @OneToOne((type) => Shelter)
+  @OneToOne(() => Shelter)
   @JoinColumn({ name: 'shelter_id' })
   shelter: Shelter;
 

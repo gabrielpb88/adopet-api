@@ -1,9 +1,14 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, DeleteDateColumn, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { User } from '../auth/auth.entity';
 
 @Entity()
 export class Tutor extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @Column({ primary: true })
   id: number;
+
+  @OneToOne(() => User)
+  @JoinColumn({ name: 'id' })
+  user: User;
 
   @Column()
   name: string;
