@@ -1,21 +1,27 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTutorDto } from './dto/create-tutor.dto';
 import { UpdateTutorDto } from './dto/update-tutor.dto';
 import { Repository } from 'typeorm';
 import { Tutor } from './tutor.entity';
 import { assignValues } from '../utils/assign';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class TutorService {
   constructor(
     @InjectRepository(Tutor)
     private readonly repository: Repository<Tutor>,
+    @Inject(AuthService)
+    private readonly authService: AuthService,
   ) {}
   async create(createTutorDto: CreateTutorDto): Promise<Tutor> {
+    const { email, password } = createTutorDto;
     const tutor = this.repository.create();
     assignValues(createTutorDto, tutor);
-    return this.repository.save(tutor);
+    await this.authService.signUp({ email, password });
+    await this.repository.save(tutor);
+    return tutor;
   }
 
   async findAll(): Promise<Tutor[]> {

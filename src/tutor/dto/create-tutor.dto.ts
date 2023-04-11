@@ -1,15 +1,10 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, IsUrl, MinLength } from 'class-validator';
-import { EmailUnique } from '../validation/is-email-unique.validator';
+import { IsNotEmpty, IsOptional, IsString, IsUrl, MinLength } from 'class-validator';
+import { AuthCredentialsDto } from '../../auth/dto/auth-credentials.dto';
 
-export class CreateTutorDto {
+export class CreateTutorDto extends AuthCredentialsDto {
   @IsString()
   @IsNotEmpty()
   name: string;
-
-  @IsEmail()
-  @IsNotEmpty()
-  @EmailUnique({ message: 'Email already being used' })
-  email: string;
 
   @IsString()
   @IsOptional()
