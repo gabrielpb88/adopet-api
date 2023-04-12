@@ -8,6 +8,7 @@ import { ShelterService } from '../shelter/shelter.service';
 import { User } from '../auth/auth.entity';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { assignToObject } from '@nestjs/core/repl/assign-to-object.util';
+import { Role } from '../enums/role.enum';
 
 @Injectable()
 export class EmployeeService {
@@ -28,7 +29,7 @@ export class EmployeeService {
     } catch (e) {
       throw new BadRequestException(`Logged user is not related to any shelter`);
     }
-    const newUser = await this.authService.signUp({ email, password });
+    const newUser = await this.authService.signUp({ email, password, roles: Role.Employee });
     const employee = this.employeeRepository.create();
     employee.name = name;
     employee.phone = phone;

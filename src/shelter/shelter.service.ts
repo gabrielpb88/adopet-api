@@ -7,6 +7,7 @@ import { assignValues } from '../utils/assign';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../auth/auth.entity';
+import { Role } from '../enums/role.enum';
 
 @Injectable()
 export class ShelterService {
@@ -25,7 +26,7 @@ export class ShelterService {
     shelter.phone = phone;
     shelter.address = address;
 
-    shelter.user = await this.authService.signUp({ email, password });
+    shelter.user = await this.authService.signUp({ email, password, roles: Role.ShelterAdmin });
     return this.repository.save(shelter);
   }
 

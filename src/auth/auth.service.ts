@@ -18,7 +18,7 @@ export class AuthService {
   ) {}
 
   async signUp(createUserDto: AuthCredentialsDto): Promise<User> {
-    const { email, password } = createUserDto;
+    const { email, password, roles } = createUserDto;
     const found = await this.repository.findOneBy({ email });
     if (found) {
       throw new ConflictException(`email ${email} already being used`);
@@ -27,6 +27,7 @@ export class AuthService {
     user.email = email;
     user.salt = await bcrypt.genSalt(12);
     user.password = await this.hashPassword(password, user.salt);
+    user.roles = roles;
     await this.repository.save(user);
     delete user.salt;
     delete user.password;
