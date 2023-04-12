@@ -13,7 +13,6 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const config = new DocumentBuilder()

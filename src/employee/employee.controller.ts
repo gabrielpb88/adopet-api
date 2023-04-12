@@ -7,6 +7,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { User } from '../auth/auth.entity';
 import { GetUser } from '../auth/user.decorator';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
+import { Role } from '../enums/role.enum';
 
 @ApiTags('Employee')
 @Controller('employee')
@@ -18,7 +21,8 @@ export class EmployeeController {
 
   @ApiOperation({ summary: 'Create Employee User' })
   @ApiBearerAuth()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
+  @Roles(Role.ShelterAdmin)
   @Post()
   async create(@Body() createEmployeeDto: CreateEmployeeDto, @GetUser() user: User) {
     return this.service.create(createEmployeeDto, user);

@@ -16,10 +16,9 @@ export class TutorService {
     private readonly authService: AuthService,
   ) {}
   async create(createTutorDto: CreateTutorDto): Promise<Tutor> {
-    const { email, password } = createTutorDto;
     const tutor = this.repository.create();
     assignValues(createTutorDto, tutor);
-    await this.authService.signUp({ email, password });
+    await this.authService.signUp(createTutorDto);
     await this.repository.save(tutor);
     return tutor;
   }

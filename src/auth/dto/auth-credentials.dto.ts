@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import { Role } from '../../enums/role.enum';
 
 export class AuthCredentialsDto {
   @IsEmail()
@@ -8,4 +9,7 @@ export class AuthCredentialsDto {
   @IsNotEmpty()
   @Length(8, 30)
   password: string;
+
+  @IsOptional()
+  roles: Role;
 }
