@@ -70,4 +70,10 @@ export class EmployeeService {
     await this.employeeRepository.update(foundUser.user_id, updateEmployeeDto);
     return foundUser;
   }
+
+  async remove(user: User): Promise<void> {
+    const found = await this.findById(user.id);
+    await this.employeeRepository.softRemove(found);
+    return;
+  }
 }

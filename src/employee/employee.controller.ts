@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -46,5 +46,13 @@ export class EmployeeController {
   @Put()
   async update(@GetUser() loggedUser: User, @Body() updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
     return this.service.update(loggedUser, updateEmployeeDto);
+  }
+
+  @ApiOperation({ summary: 'Removes the logged in Shelter Employee' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Delete()
+  async remove(@GetUser() loggedUser: User): Promise<void> {
+    return this.service.remove(loggedUser);
   }
 }
