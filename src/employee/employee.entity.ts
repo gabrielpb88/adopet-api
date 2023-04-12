@@ -1,5 +1,5 @@
 import { User } from 'src/auth/auth.entity';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { Shelter } from '../shelter/shelter.entity';
 
 @Entity()
@@ -11,10 +11,10 @@ export class Employee {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ nullable: true, primary: true })
+  @Column({ primary: true })
   user_id: number;
 
-  @OneToOne(() => Shelter)
+  @ManyToOne(() => Shelter)
   @JoinColumn({ name: 'shelter_id' })
   shelter: Shelter;
 
