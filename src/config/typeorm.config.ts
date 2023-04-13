@@ -4,6 +4,7 @@ import { Pet } from '../pet/pet.entity';
 import { Shelter } from '../shelter/shelter.entity';
 import { User } from '../auth/auth.entity';
 import { Employee } from '../employee/employee.entity';
+import { Adoption } from '../adoption/adoption.entity';
 
 export const typeormConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -12,7 +13,7 @@ export const typeormConfig: TypeOrmModuleOptions = {
   username: 'postgres',
   password: 'postgres',
   database: 'adopet',
-  entities: [Tutor, Pet, Shelter, User, Employee],
+  entities: [Tutor, Pet, Shelter, User, Employee, Adoption],
   synchronize: true,
   logging: process.env.NODE_ENV === 'development',
 };
