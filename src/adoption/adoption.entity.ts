@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Tutor } from '../tutor/tutor.entity';
 import { Pet } from '../pet/pet.entity';
 
@@ -20,4 +20,7 @@ export class Adoption extends BaseEntity {
 
   @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

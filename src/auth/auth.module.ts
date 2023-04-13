@@ -6,12 +6,13 @@ import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { Employee } from '../employee/employee.entity';
 
 const ONE_YEAR_IN_MILLISECONDS = 60 * 60 * 24 * 365;
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Employee]),
     JwtModule.register({
       secret: 'jwt-secret',
       signOptions: {
