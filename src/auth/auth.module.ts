@@ -7,15 +7,16 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 
-const ONE_YEAR_IN_MILLISECONDS = 60 * 60 * 24 * 365;
+const config = require('config');
+const appConfig = config.get('app');
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
-      secret: 'jwt-secret',
+      secret: process.env.JWT_SECRET || appConfig.get('jwtSecret'),
       signOptions: {
-        expiresIn: ONE_YEAR_IN_MILLISECONDS,
+        expiresIn: '1y',
       },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),

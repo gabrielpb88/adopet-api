@@ -1,0 +1,15 @@
+{
+  "db": {
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5434,
+    "username": "postgres",
+    "password": "postgres",
+    "database": "adopet",
+    "entities": ["dist/**/*.entity.{js|ts}"]
+  },
+  "app": {
+    "jwtSecret": "jwt-secret",
+    "port": 3000
+  }
+}
