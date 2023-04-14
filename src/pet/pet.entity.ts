@@ -27,7 +27,7 @@ export class Pet extends BaseEntity {
   @Column()
   pictureUrl: string;
 
-  @ManyToOne(() => Shelter, { nullable: false })
+  @ManyToOne(() => Shelter, { nullable: false, eager: true })
   @JoinColumn({ name: 'shelter_id' })
   shelter: Shelter;
 

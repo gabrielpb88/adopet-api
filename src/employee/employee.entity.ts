@@ -14,7 +14,7 @@ export class Employee {
   @Column({ primary: true })
   user_id: number;
 
-  @ManyToOne(() => Shelter)
+  @ManyToOne(() => Shelter, { eager: true })
   @JoinColumn({ name: 'shelter_id' })
   shelter: Shelter;
 
