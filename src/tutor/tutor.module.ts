@@ -10,5 +10,6 @@ import { AuthModule } from '../auth/auth.module';
   imports: [TypeOrmModule.forFeature([Tutor]), AuthModule],
   controllers: [TutorController],
   providers: [TutorService, EmailUniqueValidator],
+  exports: [TutorService],
 })
 export class TutorModule {}

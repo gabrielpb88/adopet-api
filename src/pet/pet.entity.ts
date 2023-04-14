@@ -1,4 +1,5 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Shelter } from '../shelter/shelter.entity';
 
 @Entity()
 export class Pet extends BaseEntity {
@@ -26,14 +27,18 @@ export class Pet extends BaseEntity {
   @Column()
   pictureUrl: string;
 
+  @ManyToOne(() => Shelter, { nullable: false, eager: true })
+  @JoinColumn({ name: 'shelter_id' })
+  shelter: Shelter;
+
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
   @Column({ default: false })
-  available: boolean;
+  isAdopted: boolean;
 
-  @Column({ nullable: true })
-  adoptedAt: Date;
+  @Column({ default: false })
+  available: boolean;
 
   @DeleteDateColumn()
   deletedAt: Date;

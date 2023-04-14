@@ -10,5 +10,6 @@ import { ShelterModule } from '../shelter/shelter.module';
   imports: [TypeOrmModule.forFeature([Employee]), AuthModule, ShelterModule],
   controllers: [EmployeeController],
   providers: [EmployeeService],
+  exports: [EmployeeService],
 })
 export class EmployeeModule {}

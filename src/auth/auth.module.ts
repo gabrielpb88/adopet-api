@@ -6,13 +6,14 @@ import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { Employee } from '../employee/employee.entity';
 
 const config = require('config');
 const appConfig = config.get('app');
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Employee]),
     JwtModule.register({
       secret: process.env.JWT_SECRET || appConfig.get('jwtSecret'),
       signOptions: {

@@ -4,6 +4,7 @@ import { Pet } from '../pet/pet.entity';
 import { Shelter } from '../shelter/shelter.entity';
 import { User } from '../auth/auth.entity';
 import { Employee } from '../employee/employee.entity';
+import { Adoption } from '../adoption/adoption.entity';
 
 const config = require('config');
 const dbConfig = config.get('db');
@@ -15,7 +16,7 @@ export const typeormConfig: TypeOrmModuleOptions = {
   username: process.env.DB_USERNAME || dbConfig.get('username'),
   password: process.env.DB_PASS || dbConfig.get('password'),
   database: process.env.DB_NAME || dbConfig.get('database'),
-  entities: [Tutor, Pet, Shelter, User, Employee],
+  entities: [Tutor, Pet, Shelter, User, Employee, Adoption],
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
 };
