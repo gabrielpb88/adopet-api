@@ -17,8 +17,14 @@ export class PetService {
     private readonly employeeService: EmployeeService,
   ) {}
 
-  async getAll(): Promise<Pet[]> {
-    return this.repository.find();
+  async getAll(skip: number = 0, take: number = 9): Promise<Pet[]> {
+    return this.repository.find({
+      where: {
+        isAdopted: false,
+      },
+      skip,
+      take,
+    });
   }
 
   async findById(id: number): Promise<Pet> {

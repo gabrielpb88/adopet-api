@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { PetService } from './pet.service';
 import { Pet } from './pet.entity';
@@ -21,8 +33,8 @@ export class PetController {
 
   @ApiOperation({ summary: 'Get all Pets' })
   @Get()
-  async getAll(): Promise<Pet[]> {
-    return this.service.getAll();
+  async getAll(@Query('skip', ParseIntPipe) skip: number, @Query('take', ParseIntPipe) take: number): Promise<Pet[]> {
+    return this.service.getAll(skip, take);
   }
 
   @ApiOperation({ summary: 'Get single Pet by id' })
