@@ -35,6 +35,16 @@ export class AdoptionService {
     return this.adoptionRepository.save(adoption);
   }
 
+  async remove(id: number, user: User): Promise<void> {
+    const employee = await this.employeeService.findById(user.id);
+    const adoption = await this.adoptionRepository.findOneBy({ id });
+    if (adoption.pet.shelter.id !== employee.shelter.id) {
+      throw new ForbiddenException();
+    }
+    await Promise.all([this.adoptionRepository.softDelete(id), this.petService.adopt(id)]);
+    return;
+  }
+
   private _isPetAndEmployeeFromSameShelter(pet: Pet, employee: Employee) {
     return pet.shelter.id === employee.shelter.id;
   }

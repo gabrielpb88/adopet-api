@@ -35,6 +35,9 @@ export class Pet extends BaseEntity {
   createdAt: Date;
 
   @Column({ default: false })
+  isAdopted: boolean;
+
+  @Column({ default: false })
   available: boolean;
 
   @DeleteDateColumn()

@@ -53,4 +53,9 @@ export class PetService {
     await this.repository.softRemove(petToBeRemoved);
     return;
   }
+
+  async adopt(id: number): Promise<void> {
+    await this.repository.update(id, { isAdopted: true });
+    return;
+  }
 }

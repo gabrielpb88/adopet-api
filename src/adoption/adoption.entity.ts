@@ -1,21 +1,24 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Tutor } from '../tutor/tutor.entity';
 import { Pet } from '../pet/pet.entity';
 import { User } from '../auth/auth.entity';
 
 @Entity()
 export class Adoption extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
   tutor_id: number;
 
-  @PrimaryColumn()
+  @Column()
   pet_id: number;
 
   @ManyToOne(() => Tutor, (tutor) => tutor.id)
   @JoinColumn({ name: 'tutor_id' })
   tutor: Tutor;
 
-  @ManyToOne(() => Pet, (pet) => pet.id)
+  @ManyToOne(() => Pet, (pet) => pet.id, { eager: true })
   @JoinColumn({ name: 'pet_id' })
   pet: Pet;
 
