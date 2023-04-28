@@ -1,17 +1,16 @@
 import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTutorDto } from './dto/create-tutor.dto';
 import { UpdateTutorDto } from './dto/update-tutor.dto';
-import { Repository } from 'typeorm';
 import { Tutor } from './tutor.entity';
 import { assignValues } from '../utils/assign';
-import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from '../auth/auth.service';
+import { TutorRepository } from './tutor.repository';
 
 @Injectable()
 export class TutorService {
   constructor(
-    @InjectRepository(Tutor)
-    private readonly repository: Repository<Tutor>,
+    @Inject(TutorRepository)
+    private readonly repository: TutorRepository,
     @Inject(AuthService)
     private readonly authService: AuthService,
   ) {}

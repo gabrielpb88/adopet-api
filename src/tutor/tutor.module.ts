@@ -5,11 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Tutor } from './tutor.entity';
 import { EmailUniqueValidator } from './validation/is-email-unique.validator';
 import { AuthModule } from '../auth/auth.module';
+import { TutorRepository } from './tutor.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Tutor]), AuthModule],
   controllers: [TutorController],
-  providers: [TutorService, EmailUniqueValidator],
+  providers: [TutorService, EmailUniqueValidator, TutorRepository],
   exports: [TutorService],
 })
 export class TutorModule {}
