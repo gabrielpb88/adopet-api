@@ -13,5 +13,5 @@ export class AuthCredentialsDto {
 
   @ApiHideProperty()
   @IsOptional()
-  roles: Role;
+  roles?: Role;
 }

@@ -9,13 +9,13 @@ export class CreateTutorDto extends AuthCredentialsDto {
   @IsString()
   @IsOptional()
   @MinLength(11)
-  phone: string;
+  phone?: string;
 
   @IsString()
   @IsOptional()
-  about: string;
+  about?: string;
 
   @IsUrl()
   @IsOptional()
-  profilePictureUrl: string;
+  profilePictureUrl?: string;
 }
