@@ -1,19 +1,25 @@
-import { ConflictException, ForbiddenException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  HttpException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from './auth.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { AuthTokenPayload } from './auth.interface';
 import { Token } from './auth.interface';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User)
-    private readonly repository: Repository<User>,
+    @Inject(UserRepository)
+    private readonly repository: UserRepository,
     private readonly jwtService: JwtService,
   ) {}
 

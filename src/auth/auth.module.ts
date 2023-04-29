@@ -7,6 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { Employee } from '../employee/employee.entity';
+import { UserRepository } from './user.repository';
 
 const config = require('config');
 const appConfig = config.get('app');
@@ -22,7 +23,7 @@ const appConfig = config.get('app');
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, UserRepository],
   controllers: [AuthController],
   exports: [AuthService, JwtStrategy, PassportModule],
 })
