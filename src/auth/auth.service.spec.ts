@@ -37,5 +37,25 @@ describe('AuthService', () => {
       await expect(service.signUp(createUserDto)).rejects.toThrow(ConflictException);
       expect(repository.findOneBy).toHaveBeenCalledWith({ email: mockedUser.email });
     });
+
+    it('should return created user without password', async () => {
+      jest.spyOn(repository, 'create').mockReturnValueOnce(new User());
+      jest.spyOn(repository, 'save').mockResolvedValue({
+        email: 'any_email@email.com',
+        password: 'any password',
+        salt: 'any salt',
+      } as unknown as User);
+
+      const createUserDto: AuthCredentialsDto = {
+        email: 'any_email@email.com',
+        password: 'any_pass',
+        roles: null,
+      };
+      const createdUser = await service.signUp(createUserDto);
+
+      expect(createdUser.email).toBe('any_email@email.com');
+      expect(createdUser.password).not.toBeDefined();
+      expect(createdUser.salt).not.toBeDefined();
+    });
   });
 });
