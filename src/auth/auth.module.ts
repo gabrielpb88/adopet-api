@@ -9,14 +9,11 @@ import { JwtStrategy } from './jwt.strategy';
 import { Employee } from '../employee/employee.entity';
 import { UserRepository } from './user.repository';
 
-const config = require('config');
-const appConfig = config.get('app');
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Employee]),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || appConfig.get('jwtSecret'),
+      secret: process.env.JWT_SECRET,
       signOptions: {
         expiresIn: '1y',
       },

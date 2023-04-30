@@ -1,15 +1,29 @@
 import { Module } from '@nestjs/common';
 import { TutorModule } from './tutor/tutor.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeormConfig } from './config/typeorm.config';
+import { PostgresConfigService } from './config/postgres.config.service';
 import { PetModule } from './pet/pet.module';
 import { ShelterModule } from './shelter/shelter.module';
 import { AuthModule } from './auth/auth.module';
 import { EmployeeModule } from './employee/employee.module';
 import { AdoptionModule } from './adoption/adoption.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeormConfig), TutorModule, PetModule, ShelterModule, AuthModule, EmployeeModule, AdoptionModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      useClass: PostgresConfigService,
+    }),
+    TutorModule,
+    PetModule,
+    ShelterModule,
+    AuthModule,
+    EmployeeModule,
+    AdoptionModule,
+  ],
   controllers: [],
   providers: [],
 })
