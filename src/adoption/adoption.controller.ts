@@ -21,7 +21,7 @@ export class AdoptionController {
   @ApiOperation({ summary: 'Creates an Adoption' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard(), RolesGuard)
-  @Roles(Role.Employee)
+  @Roles(Role.ShelterAdmin)
   @Post()
   async adopt(@Body() dto: CreateAdoptionDto, @GetUser() loggedUser: User): Promise<Adoption> {
     return this.service.adopt(dto, loggedUser);
@@ -30,7 +30,7 @@ export class AdoptionController {
   @ApiOperation({ summary: 'Removes the Adoption' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard(), RolesGuard)
-  @Roles(Role.Employee)
+  @Roles(Role.ShelterAdmin)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number, @GetUser() user: User): Promise<void> {
     return this.service.remove(id, user);

@@ -1,4 +1,4 @@
-import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Pet } from './pet.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,15 +6,14 @@ import { CreatePetDto } from './dto/create-pet.dto';
 import { assignToObject } from '@nestjs/core/repl/assign-to-object.util';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { User } from '../auth/auth.entity';
-import { EmployeeService } from '../employee/employee.service';
+import { ShelterService } from '../shelter/shelter.service';
 
 @Injectable()
 export class PetService {
   constructor(
     @InjectRepository(Pet)
     private readonly repository: Repository<Pet>,
-    @Inject(EmployeeService)
-    private readonly employeeService: EmployeeService,
+    private readonly shelterService: ShelterService,
   ) {}
 
   async getAll(skip: number = 0, take: number = 9): Promise<Pet[]> {
@@ -36,7 +35,7 @@ export class PetService {
   }
 
   async create(createPetDto: CreatePetDto, user: User): Promise<Pet> {
-    const { shelter } = await this.employeeService.findById(user.id);
+    const shelter = await this.shelterService.findByUserId(user.id);
     const pet = this.repository.create();
     assignToObject(pet, createPetDto);
     pet.shelter = shelter;
@@ -46,7 +45,7 @@ export class PetService {
 
   async update(id: number, updatePetDto: UpdatePetDto, user: User): Promise<Pet> {
     const petToBeUpdated = await this.findById(id);
-    const { shelter } = await this.employeeService.findById(user.id);
+    const shelter = await this.shelterService.findByUserId(user.id);
     if (shelter.id !== petToBeUpdated.shelter.id) {
       throw new ForbiddenException(`This pet is not at your shelter`);
     }

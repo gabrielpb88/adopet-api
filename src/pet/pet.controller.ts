@@ -46,7 +46,7 @@ export class PetController {
   @ApiOperation({ summary: 'Creates a new Pet' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard(), RolesGuard)
-  @Roles(Role.Employee)
+  @Roles(Role.ShelterAdmin)
   @Post()
   async create(@Body() createPetDto: CreatePetDto, @GetUser() user: User): Promise<Pet> {
     return this.service.create(createPetDto, user);
@@ -55,7 +55,7 @@ export class PetController {
   @ApiOperation({ summary: 'Update an Pet' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard(), RolesGuard)
-  @Roles(Role.Employee)
+  @Roles(Role.ShelterAdmin)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,

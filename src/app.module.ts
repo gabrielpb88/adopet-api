@@ -5,7 +5,6 @@ import { PostgresConfigService } from './config/postgres.config.service';
 import { PetModule } from './pet/pet.module';
 import { ShelterModule } from './shelter/shelter.module';
 import { AuthModule } from './auth/auth.module';
-import { EmployeeModule } from './employee/employee.module';
 import { AdoptionModule } from './adoption/adoption.module';
 import { ConfigModule } from '@nestjs/config';
 
@@ -21,7 +20,6 @@ import { ConfigModule } from '@nestjs/config';
     PetModule,
     ShelterModule,
     AuthModule,
-    EmployeeModule,
     AdoptionModule,
   ],
   controllers: [],

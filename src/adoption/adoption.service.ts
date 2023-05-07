@@ -6,9 +6,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TutorService } from '../tutor/tutor.service';
 import { PetService } from '../pet/pet.service';
 import { User } from '../auth/auth.entity';
-import { EmployeeService } from '../employee/employee.service';
 import { Pet } from '../pet/pet.entity';
-import { Employee } from '../employee/employee.entity';
+import { Shelter } from '../shelter/shelter.entity';
+import { ShelterService } from '../shelter/shelter.service';
 
 @Injectable()
 export class AdoptionService {
@@ -16,8 +16,8 @@ export class AdoptionService {
     @InjectRepository(Adoption)
     private readonly adoptionRepository: Repository<Adoption>,
     private readonly tutorService: TutorService,
+    private readonly shelterService: ShelterService,
     private readonly petService: PetService,
-    private readonly employeeService: EmployeeService,
   ) {}
 
   async adopt(dto: CreateAdoptionDto, loggedUser: User): Promise<Adoption> {
@@ -25,8 +25,8 @@ export class AdoptionService {
       this.tutorService.findById(dto.tutor_id),
       this.petService.findById(dto.pet_id),
     ]);
-    const employee = await this.employeeService.findById(loggedUser.id);
-    if (!this._isPetAndEmployeeFromSameShelter(pet, employee)) {
+    const shelter = await this.shelterService.findByUserId(loggedUser.id);
+    if (!this._isPetFromSameShelter(pet, shelter)) {
       throw new ForbiddenException();
     }
     const adoption = await this.adoptionRepository.create();
@@ -36,16 +36,16 @@ export class AdoptionService {
   }
 
   async remove(id: number, user: User): Promise<void> {
-    const employee = await this.employeeService.findById(user.id);
+    const shelter = await this.shelterService.findByUserId(user.id);
     const adoption = await this.adoptionRepository.findOneBy({ id });
-    if (adoption.pet.shelter.id !== employee.shelter.id) {
+    if (adoption.pet.shelter.id !== shelter.id) {
       throw new ForbiddenException();
     }
     await Promise.all([this.adoptionRepository.softDelete(id), this.petService.adopt(id)]);
     return;
   }
 
-  private _isPetAndEmployeeFromSameShelter(pet: Pet, employee: Employee) {
-    return pet.shelter.id === employee.shelter.id;
+  private _isPetFromSameShelter(pet: Pet, shelter: Shelter) {
+    return pet.shelter.id === shelter.id;
   }
 }
