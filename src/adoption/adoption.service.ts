@@ -26,12 +26,14 @@ export class AdoptionService {
       this.petService.findById(dto.pet_id),
     ]);
     const shelter = await this.shelterService.findByUserId(loggedUser.id);
+    console.log(shelter);
     if (!this._isPetFromSameShelter(pet, shelter)) {
       throw new ForbiddenException();
     }
     const adoption = await this.adoptionRepository.create();
     adoption.pet = pet;
     adoption.tutor = tutor;
+    adoption.createdBy = loggedUser;
     return this.adoptionRepository.save(adoption);
   }
 
