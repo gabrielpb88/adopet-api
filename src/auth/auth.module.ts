@@ -9,6 +9,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { Employee } from '../employee/employee.entity';
 import { UserRepository } from './user.repository';
 
+require('dotenv').config();
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Employee]),
