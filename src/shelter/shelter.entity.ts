@@ -1,8 +1,8 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../auth/auth.entity';
 
 @Entity()
-export class Shelter extends BaseEntity {
+export class Shelter {
   @PrimaryGeneratedColumn()
   id: number;
 

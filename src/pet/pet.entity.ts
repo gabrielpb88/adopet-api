@@ -1,8 +1,8 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Shelter } from '../shelter/shelter.entity';
 
 @Entity()
-export class Pet extends BaseEntity {
+export class Pet {
   @PrimaryGeneratedColumn()
   id: number;
 

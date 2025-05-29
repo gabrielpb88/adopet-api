@@ -1,10 +1,10 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Tutor } from '../tutor/tutor.entity';
 import { Pet } from '../pet/pet.entity';
 import { User } from '../auth/auth.entity';
 
 @Entity()
-export class Adoption extends BaseEntity {
+export class Adoption {
   @PrimaryGeneratedColumn()
   id: number;
 

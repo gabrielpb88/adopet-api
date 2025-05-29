@@ -3,8 +3,24 @@ services:
     image: postgres
     restart: always
     volumes:
+      - db-data:/var/lib/postgresql/data
       - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: postgres
+
+  adopet-api:
+    build:
+      context: .
+    container_name: adopet-api
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+volumes:
+  db-data:
