@@ -1,8 +1,8 @@
-import { BaseEntity, Column, DeleteDateColumn, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { User } from '../auth/auth.entity';
 
 @Entity()
-export class Tutor extends BaseEntity {
+export class Tutor {
   @Column({ primary: true })
   id: number;
 
